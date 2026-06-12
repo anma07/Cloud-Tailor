@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import './index.css'
-import { AuthButtons, LoginForm, AuthLogin } from './Login.jsx'
-import { BrowseDesigns } from './BrowseDesigns.jsx'
+import { AuthLogin } from './Login.jsx'
+import BrowseDesigns from './BrowseDesigns.jsx'
+import { CreateOrder } from './CreateOrder.jsx'
 
 export default function App() {
   return(
-    <CreateOrder />
+    <>
+      <AuthLogin />
+      <BrowseDesigns/>
+      <CreateOrder />
+    </>
   );
 }
