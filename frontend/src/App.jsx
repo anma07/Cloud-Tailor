@@ -7,8 +7,6 @@ import { CreateOrder } from './CreateOrder.jsx'
 export default function App() {
   return(
     <>
-      <AuthLogin />
-      <BrowseDesigns/>
       <CreateOrder />
     </>
   );

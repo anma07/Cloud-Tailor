@@ -1,6 +1,6 @@
-import tshirtImg from './assets/image.png';
 import DesignCard from './components/DesignCard.jsx'
 import SearchDesigns from './components/SearchDesigns.jsx'
+import {DesignsArray} from './Designs.js'
 
 export default function BrowseDesigns(){
     return (
@@ -13,16 +13,9 @@ export default function BrowseDesigns(){
             </p>
             <SearchDesigns />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-6">
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
-                <DesignCard name="T-Shirt" category="T-Shirts" imgsrc={tshirtImg} price="400"/>
+                {DesignsArray.map((design)=>(
+                    <DesignCard name={design.name} category={design.category} imgsrc={design.imgsrc} price={design.price} />
+                ))}
             </div>
         </div>
     );

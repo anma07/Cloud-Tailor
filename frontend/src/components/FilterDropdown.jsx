@@ -8,7 +8,7 @@ export default function FilterDropdown() {
         <option value="Dress">Dress</option>
         <option value="Tops">Tops</option>
         <option value="T-Shirts">T-Shirts</option>
-        <option value="Blouse">Blouse</option>
+        <option value="Skirt">Skirt</option>
       </optgroup>
       <option value="Price">Price</option>
     </select>

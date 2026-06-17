@@ -1,5 +1,6 @@
 import SelectAddress from './components/SelectAddress.jsx';
 import MethodOfPayment from './components/MethodOfPayment.jsx';
+import { useState } from "react";
 
 export function CreateOrder(){
     return(
@@ -17,12 +18,18 @@ export function CreateOrder(){
 }
 
 export function SelectSize(){
+    const [size, setSize] = useState("XS");
     return(
     <div className="flex flex-col mx-8">
         <label className="block text-black text-md font-bold m-2">
             Select Size:
         </label>
-        <select className="border rounded-lg px-3 py-2 m-2">
+        <select 
+            className="border rounded-lg px-3 py-2 m-2" 
+            value={size}
+            onChange={(e) => {
+                setSize(e.target.value);
+                }}>
             <option value="" disabled>
                 Select Size
             </option>
@@ -31,20 +38,28 @@ export function SelectSize(){
             <option value="M">M</option>
             <option value="L">L</option>
             <option value="XL">XL</option>
-            <option value="XS">XXL</option>
+            <option value="XXL">XXL</option>
         </select>
+        <p>Your selected size is {size}</p>
     </div>
     );
 }
 
 export function ClothSize(){
+    const [clothSize, setClothSize] = useState(0);
     return(
         <div>
             <label className="block text-black text-md font-bold m-2">
                 Fabric Size Available
             </label>
-            <input className="block border rounded-md"/>
+            <input 
+            className="block border rounded-md"
+            value={clothSize}
+            onChange={(e) =>{
+                setClothSize(e.target.value)
+                }}/>
             <p className="text-gray-500">(in sq metres)</p>
+            <p>You have {clothSize} square metres of cloth</p>
         </div>
     );
 }
