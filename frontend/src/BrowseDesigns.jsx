@@ -1,4 +1,4 @@
-import DesignCard from './components/DesignCard.jsx'
+import {DesignCard} from './components/DesignCard.jsx'
 import SearchDesigns from './components/SearchDesigns.jsx'
 import {DesignsArray} from './Designs.js'
 
