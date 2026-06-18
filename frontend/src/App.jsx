@@ -13,7 +13,7 @@ export default function App() {
           <Route path="/login" element={<AuthLogin />} />{' '}
           <Route path="/designs" element={<BrowseDesigns />} />
           <Route path="/designs/:id" element={<DesignPage />} />
-          <Route path="/create_order" element={<CreateOrder />} />
+          <Route path="/designs/:id/create_order" element={<CreateOrder />} />
         </Routes>
       </BrowserRouter>
     </>

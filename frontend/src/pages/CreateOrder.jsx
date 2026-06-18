@@ -1,23 +1,30 @@
+import { DesignsArray } from '../Designs.js';
 import MethodOfPayment from '../components/MethodOfPayment.jsx';
 import SelectAddress from '../components/SelectAddress.jsx';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function CreateOrder() {
+  const { id } = useParams();
+
   return (
-    <div className="border flex flex-col m-20 max-w-lg mx-auto bg-amber-100">
+    <div className="border flex flex-col m-10 max-w-xl mx-auto bg-amber-100">
       <DesignSummary
-        name="T-Shirt"
-        category="T-Shirts"
-        price="400"
-        days="5-7"
+        name={DesignsArray[id].name}
+        category={DesignsArray[id].category}
+        price={DesignsArray[id].price}
+        days={DesignsArray[id].days}
       />
       <div className="flex">
         <SelectSize />
         <ClothSize />
       </div>
-      <OrderSummary price="400" deliverycharges="100" />
+      <OrderSummary price={DesignsArray[id].price} deliverycharges="100" />
       <SelectAddress />
       <MethodOfPayment />
+      <div className="flex justify-end m-4">
+        <ProceedButton />
+      </div>
     </div>
   );
 }
@@ -91,6 +98,16 @@ export function OrderSummary({ price, deliverycharges }) {
       <p className="m-2">Base Price: ₹{price}</p>
       <p className="m-2">Delivery Charges: ₹{deliverycharges}</p>
       <p className="m-2">Total: ₹{total}</p>
+    </div>
+  );
+}
+
+export function ProceedButton() {
+  return (
+    <div className="content-right">
+      <button className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl">
+        Proceed →
+      </button>
     </div>
   );
 }
