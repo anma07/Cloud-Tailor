@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import './index.css'
-import { AuthLogin } from './Login.jsx'
-import BrowseDesigns from './BrowseDesigns.jsx'
-import { CreateOrder } from './CreateOrder.jsx'
-// import { DesignPage } from './components/DesignCard.jsx'
+import './index.css';
+import BrowseDesigns from './pages/BrowseDesigns.jsx';
+import CreateOrder from './pages/CreateOrder.jsx';
+import DesignPage from './pages/DesignPage.jsx';
+import AuthLogin from './pages/Login.jsx';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
-  return(
+  return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<AuthLogin/>}/>
-          <Route path="/designs" element={<BrowseDesigns/>}/>
-          <Route path="/createOrder" element={<Create_order />}/>
+          <Route path="/login" element={<AuthLogin />} />{' '}
+          <Route path="/designs" element={<BrowseDesigns />} />
+          <Route path="/designs/:id" element={<DesignPage />} />
+          <Route path="/create_order" element={<CreateOrder />} />
         </Routes>
       </BrowserRouter>
     </>

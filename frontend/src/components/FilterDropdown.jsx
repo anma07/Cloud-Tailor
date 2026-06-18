@@ -1,7 +1,9 @@
 export default function FilterDropdown() {
   return (
     <select className="border rounded-lg px-3 py-2 m-2">
-      <option value="" disabled>Filter</option>
+      <option value="" disabled>
+        Filter
+      </option>
       <option value="Trending">Trending</option>
       <optgroup label="Category">
         <option value="Kurta">Kurta</option>
