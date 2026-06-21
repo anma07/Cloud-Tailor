@@ -1,5 +1,6 @@
 import { AddressArray } from '../Address.js';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function SelectAddress({ addressId, setAddressId }) {
   return (
@@ -17,7 +18,11 @@ export default function SelectAddress({ addressId, setAddressId }) {
           />
         );
       })}
-      <p className="hover:text-blue-800 hover:underline">Or Add new Address</p>
+      <Link to={`/new-address`}>
+        <p className="hover:text-blue-800 hover:underline">
+          Or Add new Address
+        </p>
+      </Link>
     </div>
   );
 }

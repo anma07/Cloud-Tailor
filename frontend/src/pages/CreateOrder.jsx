@@ -41,7 +41,7 @@ export default function CreateOrder() {
   }
 
   return (
-    <div className="border flex flex-col m-10 max-w-xl mx-auto bg-amber-100">
+    <div className="border flex flex-col m-10 max-w-xl mx-auto">
       <DesignSummary
         name={DesignsArray[id].name}
         category={DesignsArray[id].category}
