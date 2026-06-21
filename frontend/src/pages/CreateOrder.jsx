@@ -2,15 +2,43 @@ import { DesignsArray } from '../Designs.js';
 import MethodOfPayment from '../components/MethodOfPayment.jsx';
 import SelectAddress from '../components/SelectAddress.jsx';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function CreateOrder() {
+  const navigate = useNavigate();
   const [size, setSize] = useState('XS');
   const [clothSize, setClothSize] = useState(0);
   const [addressId, setAddressId] = useState(0);
   const [mode, setMode] = useState('');
   const [total, setTotal] = useState(0);
   const { id } = useParams();
+
+  async function handlePlaceOrder() {
+    const order = {
+      designId: Number(id),
+      size,
+      clothSize,
+      addressId,
+      paymentMode: mode,
+      total,
+      status: 'REQUESTED',
+    };
+
+    const response = await fetch('http://localhost:3000/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order),
+    });
+
+    if (response.ok) {
+      const createdOrder = await response.json();
+      navigate(`/order-placed/${createdOrder.id}`);
+    } else {
+      alert('Failed to place order');
+    }
+  }
 
   return (
     <div className="border flex flex-col m-10 max-w-xl mx-auto bg-amber-100">
@@ -33,7 +61,12 @@ export default function CreateOrder() {
       <SelectAddress addressId={addressId} setAddressId={setAddressId} />
       <MethodOfPayment mode={mode} setMode={setMode} />
       <div className="flex justify-end m-4">
-        <ProceedButton />
+        <button
+          className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl"
+          onClick={handlePlaceOrder}
+        >
+          Proceed →
+        </button>
       </div>
     </div>
   );
@@ -107,18 +140,6 @@ export function OrderSummary({ price, deliverycharges, total, setTotal }) {
       <p className="m-2">Base Price: ₹{price}</p>
       <p className="m-2">Delivery Charges: ₹{deliverycharges}</p>
       <p className="m-2">Total: ₹{orderTotal}</p>
-    </div>
-  );
-}
-
-export function ProceedButton() {
-  return (
-    <div className="content-right">
-      <Link to={`/designs/${id}/order_placed`}>
-        <button className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl">
-          Proceed →
-        </button>
-      </Link>
     </div>
   );
 }

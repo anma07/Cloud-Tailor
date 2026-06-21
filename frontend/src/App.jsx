@@ -3,6 +3,7 @@ import BrowseDesigns from './pages/BrowseDesigns.jsx';
 import CreateOrder from './pages/CreateOrder.jsx';
 import DesignPage from './pages/DesignPage.jsx';
 import AuthLogin from './pages/Login.jsx';
+import OrderPage from './pages/OrderPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
@@ -13,8 +14,8 @@ export default function App() {
           <Route path="/login" element={<AuthLogin />} />{' '}
           <Route path="/designs" element={<BrowseDesigns />} />
           <Route path="/designs/:id" element={<DesignPage />} />
-          <Route path="/designs/:id/create_order" element={<CreateOrder />} />
-          <Route path="/designs/:id/order_placed" element={<OrderPage />} />
+          <Route path="/designs/:id/create-order" element={<CreateOrder />} />
+          <Route path="/order-placed/:id" element={<OrderPage />} />
         </Routes>
       </BrowserRouter>
     </>

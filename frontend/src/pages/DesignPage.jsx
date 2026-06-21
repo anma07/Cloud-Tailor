@@ -15,7 +15,7 @@ export default function DesignPage() {
       />
       <h1 className="text-4xl">Price: ₹{DesignsArray[id].price}</h1>
       <div className="flex items-center gap-6 mx-auto">
-        <Link to={`/designs/${id}/create_order`}>
+        <Link to={`/designs/${id}/create-order`}>
           <button className="w-50 border px-4 py-4 mt-4 hover:bg-gray-200">
             Buy Now
           </button>

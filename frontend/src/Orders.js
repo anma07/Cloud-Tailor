@@ -1,1 +1,1 @@
-OrdersArray = [];
+const OrdersArray = [];
