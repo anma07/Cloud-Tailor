@@ -1,8 +1,7 @@
 import { AddressArray } from '../Address.js';
 import { useState } from 'react';
 
-export default function SelectAddress() {
-  const [addressId, setAddressId] = useState(0);
+export default function SelectAddress({ addressId, setAddressId }) {
   return (
     <div className="flex flex-col ml-6 mb-4">
       <p>Choose Your Address</p>

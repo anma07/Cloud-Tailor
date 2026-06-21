@@ -5,6 +5,11 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function CreateOrder() {
+  const [size, setSize] = useState('XS');
+  const [clothSize, setClothSize] = useState(0);
+  const [addressId, setAddressId] = useState(0);
+  const [mode, setMode] = useState('');
+  const [total, setTotal] = useState(0);
   const { id } = useParams();
 
   return (
@@ -16,12 +21,17 @@ export default function CreateOrder() {
         days={DesignsArray[id].days}
       />
       <div className="flex">
-        <SelectSize />
-        <ClothSize />
+        <SelectSize size={size} setSize={setSize} />
+        <ClothSize clothSize={clothSize} setClothSize={setClothSize} />
       </div>
-      <OrderSummary price={DesignsArray[id].price} deliverycharges="100" />
-      <SelectAddress />
-      <MethodOfPayment />
+      <OrderSummary
+        price={DesignsArray[id].price}
+        deliverycharges="100"
+        total={total}
+        setTotal={setTotal}
+      />
+      <SelectAddress addressId={addressId} setAddressId={setAddressId} />
+      <MethodOfPayment mode={mode} setMode={setMode} />
       <div className="flex justify-end m-4">
         <ProceedButton />
       </div>
@@ -29,8 +39,7 @@ export default function CreateOrder() {
   );
 }
 
-export function SelectSize() {
-  const [size, setSize] = useState('XS');
+export function SelectSize({ size, setSize }) {
   return (
     <div className="flex flex-col mx-8">
       <label className="block text-black text-md font-bold m-2">
@@ -58,8 +67,7 @@ export function SelectSize() {
   );
 }
 
-export function ClothSize() {
-  const [clothSize, setClothSize] = useState(0);
+export function ClothSize({ clothSize, setClothSize }) {
   return (
     <div>
       <label className="block text-black text-md font-bold m-2">
@@ -90,14 +98,15 @@ export function DesignSummary({ name, category, price, days }) {
   );
 }
 
-export function OrderSummary({ price, deliverycharges }) {
-  const total = Number(price) + Number(deliverycharges);
+export function OrderSummary({ price, deliverycharges, total, setTotal }) {
+  const orderTotal = Number(price) + Number(deliverycharges);
+  setTotal(orderTotal);
   return (
     <div className="block m-4">
       <h2 className="font-serif text-xl">Order Summary</h2>
       <p className="m-2">Base Price: ₹{price}</p>
       <p className="m-2">Delivery Charges: ₹{deliverycharges}</p>
-      <p className="m-2">Total: ₹{total}</p>
+      <p className="m-2">Total: ₹{orderTotal}</p>
     </div>
   );
 }
@@ -105,9 +114,11 @@ export function OrderSummary({ price, deliverycharges }) {
 export function ProceedButton() {
   return (
     <div className="content-right">
-      <button className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl">
-        Proceed →
-      </button>
+      <Link to={`/designs/${id}/order_placed`}>
+        <button className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl">
+          Proceed →
+        </button>
+      </Link>
     </div>
   );
 }

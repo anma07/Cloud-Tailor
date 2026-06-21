@@ -14,6 +14,7 @@ export default function App() {
           <Route path="/designs" element={<BrowseDesigns />} />
           <Route path="/designs/:id" element={<DesignPage />} />
           <Route path="/designs/:id/create_order" element={<CreateOrder />} />
+          <Route path="/designs/:id/order_placed" element={<OrderPage />} />
         </Routes>
       </BrowserRouter>
     </>

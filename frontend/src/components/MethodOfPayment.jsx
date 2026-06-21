@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-export default function MethodOfPayment() {
-  const [mode, setMode] = useState('');
+export default function MethodOfPayment({ mode, setMode }) {
   function changeMode(attr) {
     setMode(attr);
   }
