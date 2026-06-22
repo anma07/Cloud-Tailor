@@ -91,6 +91,20 @@ app.get("/orders/:id", (req, res) => {
   res.json(OrdersArray[id]);
 });
 
+app.patch("/orders/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!OrdersArray[id]) {
+    return res.status(404).json({
+      error: "Order not found",
+    });
+  }
+  const order = OrdersArray[id];
+
+  order.status = req.body.status;
+  res.json(order);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
