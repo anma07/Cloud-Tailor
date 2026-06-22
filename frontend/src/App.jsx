@@ -1,4 +1,5 @@
 import './index.css';
+import { AdminOrders, OrderPageCard } from './pages/AdminOrders.jsx';
 import BrowseDesigns from './pages/BrowseDesigns.jsx';
 import CreateOrder from './pages/CreateOrder.jsx';
 import DesignPage from './pages/DesignPage.jsx';
@@ -18,6 +19,8 @@ export default function App() {
           <Route path="/designs/:id/create-order" element={<CreateOrder />} />
           <Route path="/order-placed/:id" element={<OrderPage />} />
           <Route path="/new-address" element={<NewAddress />} />
+          <Route path="/orders" element={<AdminOrders />} />
+          <Route path="/orders/:id" element={<OrderPageCard />} />
         </Routes>
       </BrowserRouter>
     </>
