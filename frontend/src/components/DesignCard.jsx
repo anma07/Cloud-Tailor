@@ -1,4 +1,3 @@
-import { DesignsArray } from '../Designs.js';
 import { Link } from 'react-router-dom';
 
 export default function DesignCard({ id, name, category, price, imgsrc }) {

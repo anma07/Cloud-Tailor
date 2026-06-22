@@ -1,12 +1,22 @@
-import { AddressArray } from '../Address.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function SelectAddress({ addressId, setAddressId }) {
+  const [addresses, setAddresses] = useState([]);
+  useEffect(() => {
+    async function fetchAddresses() {
+      const response = await fetch('http://localhost:3000/address');
+
+      const data = await response.json();
+      setAddresses(data);
+    }
+
+    fetchAddresses();
+  }, []);
   return (
     <div className="flex flex-col ml-6 mb-4">
       <p>Choose Your Address</p>
-      {AddressArray.map((adr) => {
+      {addresses.map((adr) => {
         return (
           <ShowAddress
             key={adr.id}

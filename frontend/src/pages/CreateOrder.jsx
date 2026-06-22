@@ -1,7 +1,6 @@
-import { DesignsArray } from '../Designs.js';
 import MethodOfPayment from '../components/MethodOfPayment.jsx';
 import SelectAddress from '../components/SelectAddress.jsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export default function CreateOrder() {
@@ -11,6 +10,7 @@ export default function CreateOrder() {
   const [addressId, setAddressId] = useState(0);
   const [mode, setMode] = useState('');
   const [total, setTotal] = useState(0);
+  const [design, setDesign] = useState(null);
   const { id } = useParams();
 
   async function handlePlaceOrder() {
@@ -40,20 +40,34 @@ export default function CreateOrder() {
     }
   }
 
+  useEffect(() => {
+    async function fetchDesign() {
+      const response = await fetch(`http://localhost:3000/designs/${id}`);
+      const data = await response.json();
+
+      setDesign(data);
+    }
+    fetchDesign();
+  }, [id]);
+
+  if (!design) {
+    return <p>Loding Design....</p>;
+  }
+
   return (
     <div className="border flex flex-col m-10 max-w-xl mx-auto">
       <DesignSummary
-        name={DesignsArray[id].name}
-        category={DesignsArray[id].category}
-        price={DesignsArray[id].price}
-        days={DesignsArray[id].days}
+        name={design.name}
+        category={design.category}
+        price={design.price}
+        days={design.days}
       />
       <div className="flex">
         <SelectSize size={size} setSize={setSize} />
         <ClothSize clothSize={clothSize} setClothSize={setClothSize} />
       </div>
       <OrderSummary
-        price={DesignsArray[id].price}
+        price={design.price}
         deliverycharges="100"
         total={total}
         setTotal={setTotal}
