@@ -1,9 +1,12 @@
 const { DesignsArray } = require("./Designs");
 const { AddressArray } = require("./Address");
 const { OrdersArray } = require("./Orders");
+const { UsersArray } = require("./Users");
 const express = require("express");
 const app = express();
 const port = 3000;
+
+const CURRENT_USER_ID = 0;
 
 const cors = require("cors");
 app.use(cors());
@@ -71,6 +74,7 @@ app.post("/orders", (req, res) => {
   const order = req.body;
   const newOrder = {
     id: OrdersArray.length,
+    userId: CURRENT_USER_ID,
     ...order,
   };
 
@@ -103,6 +107,55 @@ app.patch("/orders/:id", (req, res) => {
 
   order.status = req.body.status;
   res.json(order);
+});
+
+app.get("/users", (req, res) => {
+  res.json(UsersArray);
+});
+
+app.get("/users/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!UsersArray[id]) {
+    return res.status(404).json({
+      error: "User not found",
+    });
+  }
+  res.json(UsersArray[id]);
+});
+
+app.post("/users", (req, res) => {
+  const user = req.body;
+
+  newUser = {
+    id: UsersArray.length,
+    ...user,
+  };
+  UsersArray.push(newUser);
+  res.status(201).json(newUser);
+});
+
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  const user = UsersArray.find((user) => user.email === email);
+
+  if (!user) {
+    res.status(401).json({
+      error: "User Not Found",
+    });
+  }
+
+  if (user.password !== password) {
+    res.status(401).json({
+      error: "Incorrect Password",
+    });
+  }
+
+  res.json({
+    id: user.id,
+    username: user.username,
+  });
 });
 
 app.listen(port, () => {

@@ -1,6 +1,7 @@
 import './index.css';
 import AdminOrders from './pages/AdminOrders.jsx';
 import BrowseDesigns from './pages/BrowseDesigns.jsx';
+import CreateAccount from './pages/CreateAccount.jsx';
 import CreateOrder from './pages/CreateOrder.jsx';
 import DesignPage from './pages/DesignPage.jsx';
 import AuthLogin from './pages/Login.jsx';
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/new-address" element={<NewAddress />} />
           <Route path="/orders" element={<AdminOrders />} />
           <Route path="/orders/:id" element={<OrderPageCard />} />
+          <Route path="/create-account" element={<CreateAccount />} />
         </Routes>
       </BrowserRouter>
     </>

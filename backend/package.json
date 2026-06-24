@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devState": "nodemon server.js"
+    "devState": "nodemon server.js",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,8 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "eslint": "^10.5.0",

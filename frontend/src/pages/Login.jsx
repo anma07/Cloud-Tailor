@@ -1,5 +1,6 @@
 import AuthExternal from '../components/AuthExternal.jsx';
 import LoginForm from '../components/LoginForm.jsx';
+import { Link } from 'react-router-dom';
 
 export default function AuthLogin() {
   return (
@@ -8,12 +9,14 @@ export default function AuthLogin() {
       <AuthExternal />
       <LoginForm />
       <p>Don't have an account?</p>
-      <a
-        className="inline-block align-baseline font-bold text-m text-blue-800 hover:text-blue-500 hover:underline"
-        href="#"
-      >
-        Create Account
-      </a>
+      <Link to={`/create-account`}>
+        <a
+          className="inline-block align-baseline font-bold text-m text-blue-800 hover:text-blue-500 hover:underline"
+          href="#"
+        >
+          Create Account
+        </a>
+      </Link>
     </div>
   );
 }

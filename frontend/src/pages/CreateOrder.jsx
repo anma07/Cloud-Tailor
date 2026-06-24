@@ -14,7 +14,13 @@ export default function CreateOrder() {
   const { id } = useParams();
 
   async function handlePlaceOrder() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      return <p>Please log in first.</p>;
+    }
+    const userId = user.id;
     const order = {
+      userId,
       designId: Number(id),
       size,
       clothSize,
