@@ -23,7 +23,7 @@ export default function OrderPageCard() {
 
     async function fetchDesign() {
       const response = await fetch(
-        `http://localhost:3000/designs/${order.designId}`,
+        `http://localhost:3000/designs/${order.design_id}`,
       );
       const data = await response.json();
 
@@ -74,7 +74,7 @@ export default function OrderPageCard() {
       <p>Design Category: {design.category}</p>
       <div className="flex gap-8">
         <p>Size: {order.size}</p>
-        <p>Clothsize: {order.clothSize}</p>
+        <p>Clothsize: {order.cloth_size}</p>
       </div>
       <p>Status: {status}</p>
       <div>

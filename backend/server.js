@@ -1,7 +1,4 @@
-const { DesignsArray } = require("./Designs");
-const { AddressArray } = require("./Address");
-const { OrdersArray } = require("./Orders");
-const { UsersArray } = require("./Users");
+const { pool } = require("./db");
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -22,140 +19,288 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.get("/designs", (req, res) => {
-  res.json(DesignsArray);
+app.get("/designs", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM designs`);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
 });
 
-app.get("/designs/:id", (req, res) => {
+app.get("/designs/:id", async (req, res) => {
   const id = Number(req.params.id);
 
-  if (!DesignsArray[id]) {
-    return res.status(404).json({
-      error: "Design not found",
+  try {
+    const result = await pool.query(`SELECT * FROM designs WHERE id = $1`, [
+      id,
+    ]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Design not found",
+      });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/address", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM addresses`);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/address/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(`SELECT * FROM addresses WHERE id = $1`, [
+      id,
+    ]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Address not found",
+      });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/:id/address", async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(
+      `SELECT * FROM addresses WHERE user_id = $1`,
+      [id],
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.post("/address", async (req, res) => {
+  const { userId, label, value, pincode } = req.body;
+  try {
+    const result = await pool.query(
+      `INSERT INTO addresses (user_id, label, value, pincode)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *`,
+      [userId, label, value, pincode],
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Datbase error",
+    });
+  }
+});
+
+app.get("/orders", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM orders`);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.post("/orders", async (req, res) => {
+  const {
+    userId,
+    designId,
+    size,
+    clothSize,
+    addressId,
+    paymentMode,
+    total,
+    status,
+  } = req.body;
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO orders (user_id, design_id, size, cloth_size, address_id, payment_mode, total, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING *`,
+      [
+        userId,
+        designId,
+        size,
+        clothSize,
+        addressId,
+        paymentMode,
+        total,
+        status,
+      ],
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/orders/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(`SELECT * FROM orders WHERE id = $1`, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Order not found",
+      });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.patch("/orders/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const { status } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE orders
+      SET status = $1
+      WHERE id = $2`,
+      [status, id],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Order not found",
+      });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM users`);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+});
+
+app.get("/users/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
     });
   }
 
-  res.json(DesignsArray[id]);
-});
-
-app.get("/address", (req, res) => {
-  res.json(AddressArray);
-});
-
-app.get("/address/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!AddressArray[id]) {
-    return res.status(404).json({
-      error: "Address not found",
-    });
-  }
-
-  res.json(AddressArray[id]);
-});
-
-app.post("/address", (req, res) => {
-  const address = req.body;
-  const newAddress = {
-    id: AddressArray.length,
-    ...address,
-  };
-
-  AddressArray.push(newAddress);
-
-  res.status(201).json(newAddress);
-});
-
-app.get("/orders", (req, res) => {
-  res.json(OrdersArray);
-});
-
-app.post("/orders", (req, res) => {
-  const order = req.body;
-  const newOrder = {
-    id: OrdersArray.length,
-    userId: CURRENT_USER_ID,
-    ...order,
-  };
-
-  OrdersArray.push(newOrder);
-
-  res.status(201).json(newOrder);
-});
-
-app.get("/orders/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!OrdersArray[id]) {
-    return res.status(404).json({
-      error: "Order not found",
-    });
-  }
-
-  res.json(OrdersArray[id]);
-});
-
-app.patch("/orders/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!OrdersArray[id]) {
-    return res.status(404).json({
-      error: "Order not found",
-    });
-  }
-  const order = OrdersArray[id];
-
-  order.status = req.body.status;
-  res.json(order);
-});
-
-app.get("/users", (req, res) => {
-  res.json(UsersArray);
-});
-
-app.get("/users/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  if (!UsersArray[id]) {
+  if (result.rows.length === 0) {
     return res.status(404).json({
       error: "User not found",
     });
   }
-  res.json(UsersArray[id]);
 });
 
-app.post("/users", (req, res) => {
-  const user = req.body;
+app.post("/users", async (req, res) => {
+  const { username, email, password, phone } = req.body;
 
-  newUser = {
-    id: UsersArray.length,
-    ...user,
-  };
-  UsersArray.push(newUser);
-  res.status(201).json(newUser);
+  try {
+    const result = await pool.query(
+      `INSERT INTO users (username, email, password, phone)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *`,
+      [username, email, password, phone],
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = UsersArray.find((user) => user.email === email);
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+      email,
+    ]);
 
-  if (!user) {
-    res.status(401).json({
-      error: "User Not Found",
+    const user = result.rows[0];
+
+    if (!user) {
+      res.status(401).json({
+        error: "User Not Found",
+      });
+    }
+
+    if (user.password !== password) {
+      res.status(401).json({
+        error: "Incorrect Password",
+      });
+    }
+
+    res.json({
+      id: user.id,
+      username: user.username,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
     });
   }
-
-  if (user.password !== password) {
-    res.status(401).json({
-      error: "Incorrect Password",
-    });
-  }
-
-  res.json({
-    id: user.id,
-    username: user.username,
-  });
 });
 
 app.listen(port, () => {

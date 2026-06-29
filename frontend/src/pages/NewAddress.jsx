@@ -8,7 +8,13 @@ export default function NewAddress() {
   const [adrPincode, setAdrPincode] = useState('');
 
   async function handleAddAddress() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      return <p>Please log in first.</p>;
+    }
+    const userId = user.id;
     const address = {
+      userId,
       label: adrLabel,
       value: adrValue,
       pincode: Number(adrPincode),

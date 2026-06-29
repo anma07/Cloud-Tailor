@@ -22,7 +22,7 @@ export default function OrderPage() {
     if (!order) return;
     async function fetchAddress() {
       const response = await fetch(
-        `http://localhost:3000/address/${order.addressId}`,
+        `http://localhost:3000/address/${order.address_id}`,
       );
       const data = await response.json();
       setAddress(data);
@@ -34,7 +34,7 @@ export default function OrderPage() {
     if (!order) return;
     async function fetchDesign() {
       const response = await fetch(
-        `http://localhost:3000/designs/${order.designId}`,
+        `http://localhost:3000/designs/${order.design_id}`,
       );
       const data = await response.json();
 
@@ -63,7 +63,7 @@ export default function OrderPage() {
       <p>
         Address of Delivery: {address ? address.value : 'Loading Address...'}
       </p>
-      <p>Mode of Payment: {order.paymentMode}</p>
+      <p>Mode of Payment: {order.payment_mode}</p>
     </div>
   );
 }
