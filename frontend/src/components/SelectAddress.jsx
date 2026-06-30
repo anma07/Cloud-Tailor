@@ -9,7 +9,7 @@ export default function SelectAddress({ addressId, setAddressId }) {
     }
   useEffect(() => {
     async function fetchAddresses() {
-      const response = await fetch(`http://localhost:3000/${user.id}/address`);
+      const response = await fetch(`http://localhost:3000/users/${user.id}/address`);
 
       const data = await response.json();
       setAddresses(data);

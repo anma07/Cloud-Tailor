@@ -59,7 +59,7 @@ export default function OrderPage() {
       <p>Price: {order.total}</p>
       <p>Estimated Time: {design.days} days</p>
       <p>Size: {order.size}</p>
-      <p>Cloth Size: {order.clothSize} square metres</p>
+      <p>Cloth Size: {order.cloth_size} square metres</p>
       <p>
         Address of Delivery: {address ? address.value : 'Loading Address...'}
       </p>
