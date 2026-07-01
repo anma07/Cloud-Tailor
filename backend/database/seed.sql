@@ -14,11 +14,11 @@ VALUES
 
 INSERT INTO designs (name, category, imgsrc, price, days)
 VALUES
-('T-Shirt', 'T-Shirts', '/images/tshirt.png', 300, '3-4'),
-('Top', 'Tops', '/images/top.png', 400, '5-7'),
-('Jacket', 'Jackets', '/images/jacket.png', 800, '5-7'),
-('Winter-Jacket', 'Jackets', '/images/winter-jacket.png', 1000, '8-9'),
-('Skirt', 'Skirts', '/images/skirt.png', 400, '3-4');
+('T-Shirt', 'T-Shirts', '/uploads/tshirt.png', 300, '3-4'),
+('Top', 'Tops', '/uploads/top.png', 400, '5-7'),
+('Jacket', 'Jackets', '/uploads/jacket.png', 800, '5-7'),
+('Winter-Jacket', 'Jackets', '/uploads/winter-jacket.png', 1000, '8-9'),
+('Skirt', 'Skirts', '/uploads/skirt.png', 400, '3-4');
 
 INSERT INTO orders (user_id, design_id, size, cloth_size, address_id, payment_mode, total, status)
 VALUES

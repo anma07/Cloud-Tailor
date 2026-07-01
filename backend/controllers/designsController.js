@@ -1,4 +1,5 @@
 const { pool } = require("../db");
+const path = require("path");
 
 exports.getDesigns = async (req, res) => {
   try {
@@ -25,6 +26,26 @@ exports.getDesign = async (req, res) => {
       });
     }
     res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+};
+
+exports.addDesign = async (req, res) => {
+  const { name, category, price, days } = req.body;
+  const imgsrc = `/uploads/${req.file.filename}`;
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO designs (name, category, imgsrc, price, days)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *`,
+      [name, category, imgsrc, price, days],
+    );
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({

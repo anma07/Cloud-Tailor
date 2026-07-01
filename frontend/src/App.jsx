@@ -6,8 +6,10 @@ import CreateOrder from './pages/CreateOrder.jsx';
 import DesignPage from './pages/DesignPage.jsx';
 import AuthLogin from './pages/Login.jsx';
 import NewAddress from './pages/NewAddress.jsx';
+import NewDesign from './pages/NewDesign.jsx';
 import OrderPage from './pages/OrderPage.jsx';
 import OrderPageCard from './pages/OrderPageCard.jsx';
+import UserOrdersPage from './pages/UserOrdersPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
           <Route path="/orders" element={<AdminOrders />} />
           <Route path="/orders/:id" element={<OrderPageCard />} />
           <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/:id/my-orders" element={<UserOrdersPage />} />
+          <Route path="/new-design" element={<NewDesign />} />
         </Routes>
       </BrowserRouter>
     </>

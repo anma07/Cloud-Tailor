@@ -24,7 +24,7 @@ export default function DesignPage() {
       <h1 className="text-4xl">Design Name: {design.name}</h1>
       <h2 className="text-2xl">Category: {design.category}</h2>
       <img
-        src={design.imgsrc}
+        src={`http://localhost:3000${design.imgsrc}`}
         alt={design.name}
         className="h-150 w-150 mx-auto"
       />

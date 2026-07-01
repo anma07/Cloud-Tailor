@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function AdminOrders() {
+export default function UserOrdersPage() {
   const [orders, setOrders] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     async function fetchOrders() {
-      const response = await fetch(`http://localhost:3000/orders`);
+      const response = await fetch(`http://localhost:3000/users/${id}/orders`);
       const data = await response.json();
-
       setOrders(data);
     }
     fetchOrders();
-  }, []);
+  }, [id]);
 
   if (orders.length === 0) {
     return <p>Loading Orders...</p>;
@@ -20,7 +20,7 @@ export default function AdminOrders() {
 
   return (
     <div className="max-w-4xl mx-auto m-4">
-      <h1 className="text-4xl">Orders:</h1>
+      <h1 className="text-4xl">Your Orders:</h1>
       <div className="grid grid-cols-1">
         {orders.map((order) => (
           <OrderCard
@@ -55,17 +55,15 @@ function OrderCard({ id, designId, size, clothSize, status }) {
   }
 
   return (
-    <Link to={`/orders/${id}`}>
-      <div className="border rounded-md m-4">
-        <h1 className="text-2xl">Order: {id}</h1>
-        <p>Design Name: {design.name}</p>
-        <p>Design Category: {design.category}</p>
-        <div className="flex gap-8">
-          <p>Size: {size}</p>
-          <p>Clothsize: {clothSize}</p>
-        </div>
-        <p>Status: {status}</p>
+    <div className="border rounded-md m-4">
+      <h1 className="text-2xl">Order: {id}</h1>
+      <p>Design Name: {design.name}</p>
+      <p>Design Category: {design.category}</p>
+      <div className="flex gap-8">
+        <p>Size: {size}</p>
+        <p>Clothsize: {clothSize}</p>
       </div>
-    </Link>
+      <p>Status: {status}</p>
+    </div>
   );
 }

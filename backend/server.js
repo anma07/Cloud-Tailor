@@ -16,6 +16,7 @@ app.use("/orders", ordersRoutes);
 app.use("/designs", designsRoutes);
 app.use("/address", addressRoutes);
 app.use("/login", authRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

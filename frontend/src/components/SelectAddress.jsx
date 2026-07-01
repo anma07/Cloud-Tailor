@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 export default function SelectAddress({ addressId, setAddressId }) {
   const [addresses, setAddresses] = useState([]);
   const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-      return <p>Please log in first.</p>;
-    }
+  if (!user) {
+    return <p>Please log in first.</p>;
+  }
   useEffect(() => {
     async function fetchAddresses() {
-      const response = await fetch(`http://localhost:3000/users/${user.id}/address`);
+      const response = await fetch(
+        `http://localhost:3000/users/${user.id}/address`,
+      );
 
       const data = await response.json();
       setAddresses(data);

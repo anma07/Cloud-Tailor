@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function LoginForm() {
     if (response.ok) {
       setError(null);
       localStorage.setItem('user', JSON.stringify(data));
-      navigate("/designs");
+      navigate('/designs');
     } else {
       setError(data.error);
     }
