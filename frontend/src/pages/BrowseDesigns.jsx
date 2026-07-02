@@ -1,19 +1,39 @@
 import DesignCard from '../components/DesignCard.jsx';
 import SearchDesigns from '../components/SearchDesigns.jsx';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function BrowseDesigns() {
   const [designs, setDesigns] = useState([]);
+  const [searchParams] = useSearchParams();
+
+  const category = searchParams.get('category');
+  const sort = searchParams.get('sort');
+  const search = searchParams.get("search");
 
   useEffect(() => {
+    let url = 'http://localhost:3000/designs';
+
+    if (category) {
+      url += `?category=${category}`;
+    }
+
+    if (sort) {
+      url += `?sort=${sort}`;
+    }
+
+    if(search){
+      url += `?search=${search}`
+    }
+
     async function fetchDesigns() {
-      const response = await fetch(`http://localhost:3000/designs`);
+      const response = await fetch(url);
       const data = await response.json();
 
       setDesigns(data);
     }
     fetchDesigns();
-  }, []);
+  }, [category, sort, search]);
 
   return (
     <div className="m-8">

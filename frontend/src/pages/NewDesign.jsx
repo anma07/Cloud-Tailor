@@ -44,11 +44,11 @@ export default function NewDesign() {
         onChange={(e) => setCategory(e.target.value)}
       >
         <option value="T-Shirts">T-Shirts</option>
-        <option value="Jacket">Jacket</option>
-        <option value="Dress">Dress</option>
+        <option value="Jackets">Jackets</option>
+        <option value="Dresses">Dresses</option>
         <option value="Tops">Tops</option>
         <option value="Kurta">Kurta</option>
-        <option value="Skirt">Skirt</option>
+        <option value="Skirts">Skirts</option>
       </select>
       <label>Upload an image:</label>
       <input

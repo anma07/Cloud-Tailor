@@ -2,8 +2,53 @@ const { pool } = require("../db");
 const path = require("path");
 
 exports.getDesigns = async (req, res) => {
+  const { category, sort, search } = req.query;
+
   try {
-    const result = await pool.query(`SELECT * FROM designs`);
+    let result;
+    if (category) {
+      result = await pool.query(
+        `SELECT * FROM designs 
+        WHERE category = $1`,
+        [category],
+      );
+    } else if (sort) {
+      if (sort === "price_asc") {
+        result = await pool.query(
+          `SELECT * FROM designs 
+          ORDER BY price ASC`,
+        );
+      } else if (sort === "price_desc") {
+        result = await pool.query(
+          `SELECT * FROM designs 
+          ORDER BY price DESC`,
+        );
+      } else if (sort === "range_500") {
+        result = await pool.query(
+          `SELECT * FROM designs 
+          WHERE price <= 500`,
+        );
+      } else if (sort === "range_500-1000") {
+        result = await pool.query(
+          `SELECT * FROM designs 
+          WHERE price >= 500 
+          AND price <= 1000`,
+        );
+      } else if (sort === "range_1000") {
+        result = await pool.query(
+          `SELECT * FROM designs 
+          WHERE price >= 1000`,
+        );
+      }
+    } else if (search) {
+      result = await pool.query(
+        `SELECT * FROM designs
+        WHERE name ILIKE $1`,
+        [`%${search}%`],
+      );
+    } else {
+      result = await pool.query(`SELECT * FROM designs`);
+    }
     res.json(result.rows);
   } catch (err) {
     console.error(err);
