@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {apiFetch} from '../api/api'
 
 export default function NewDesign() {
   const [name, setName] = useState('');
@@ -9,13 +10,14 @@ export default function NewDesign() {
 
   async function handleSubmit() {
     const formData = new FormData();
+    const token = localStorage.getItem('token');
     formData.append('name', name);
     formData.append('category', category);
     formData.append('image', image);
     formData.append('price', price);
     formData.append('days', days);
 
-    const response = await fetch(`http://localhost:3000/designs`, {
+    const response = await apiFetch(`http://localhost:3000/designs`, {
       method: 'POST',
       body: formData,
     });

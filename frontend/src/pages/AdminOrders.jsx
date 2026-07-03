@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     async function fetchOrders() {
-      const response = await fetch(`http://localhost:3000/orders`);
+      const response = await apiFetch(`http://localhost:3000/orders`);
       const data = await response.json();
 
       setOrders(data);
@@ -17,6 +18,8 @@ export default function AdminOrders() {
   if (orders.length === 0) {
     return <p>Loading Orders...</p>;
   }
+
+  console.log(orders);
 
   return (
     <div className="max-w-4xl mx-auto m-4">

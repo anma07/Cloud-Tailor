@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function OrderPageCard() {
   const { id } = useParams();
@@ -9,7 +10,7 @@ export default function OrderPageCard() {
 
   useEffect(() => {
     async function fetchOrder() {
-      const response = await fetch(`http://localhost:3000/orders/${id}`);
+      const response = await apiFetch(`http://localhost:3000/orders/${id}`);
       const data = await response.json();
 
       setOrder(data);
@@ -22,7 +23,7 @@ export default function OrderPageCard() {
     if (!order) return;
 
     async function fetchDesign() {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:3000/designs/${order.design_id}`,
       );
       const data = await response.json();
@@ -56,7 +57,7 @@ export default function OrderPageCard() {
   }
 
   async function updateStatus(status) {
-    const response = await fetch(`http://localhost:3000/orders/${id}`, {
+    const response = await apiFetch(`http://localhost:3000/orders/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

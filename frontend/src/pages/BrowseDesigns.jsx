@@ -9,7 +9,7 @@ export default function BrowseDesigns() {
 
   const category = searchParams.get('category');
   const sort = searchParams.get('sort');
-  const search = searchParams.get("search");
+  const search = searchParams.get('search');
 
   useEffect(() => {
     let url = 'http://localhost:3000/designs';
@@ -22,8 +22,8 @@ export default function BrowseDesigns() {
       url += `?sort=${sort}`;
     }
 
-    if(search){
-      url += `?search=${search}`
+    if (search) {
+      url += `?search=${search}`;
     }
 
     async function fetchDesigns() {

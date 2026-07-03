@@ -62,9 +62,12 @@ exports.getDesign = async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    const result = await pool.query(`SELECT * FROM designs WHERE id = $1`, [
-      id,
-    ]);
+    const result = await pool.query(
+      `
+      SELECT * FROM designs 
+      WHERE id = $1`,
+      [id],
+    );
     if (result.rows.length === 0) {
       return res.status(404).json({
         error: "Design not found",
@@ -80,6 +83,12 @@ exports.getDesign = async (req, res) => {
 };
 
 exports.addDesign = async (req, res) => {
+  if (req.user.role !== "tailor") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
   const { name, category, price, days } = req.body;
   const imgsrc = `/uploads/${req.file.filename}`;
 

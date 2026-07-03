@@ -8,7 +8,7 @@ export default function SearchDesigns() {
   function handleSearch() {
     navigate(`/designs?search=${search}`);
   }
-  
+
   return (
     <div className="flex items-center justify-center mt-20">
       <input

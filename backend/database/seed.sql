@@ -1,8 +1,8 @@
-INSERT INTO users (username, email, password, phone)
-VALUES
-('Avani', 'abcd@gmail.com', '123456', '57665487'),
-('Aster', 'aster@gmail.com', 'aster123', '78385432'),
-('Leo', 'leo@gmail.com', 'leo890', '43278687');
+-- INSERT INTO users (username, email, password, phone)
+-- VALUES
+-- ('Avani', 'abcd@gmail.com', '123456', '57665487'),
+-- ('Aster', 'aster@gmail.com', 'aster123', '78385432'),
+-- ('Leo', 'leo@gmail.com', 'leo890', '43278687');
 
 INSERT INTO addresses (user_id, label, value, pincode)
 VALUES 

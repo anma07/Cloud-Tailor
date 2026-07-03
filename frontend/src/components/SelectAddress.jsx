@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function SelectAddress({ addressId, setAddressId }) {
   const [addresses, setAddresses] = useState([]);
@@ -9,7 +10,7 @@ export default function SelectAddress({ addressId, setAddressId }) {
   }
   useEffect(() => {
     async function fetchAddresses() {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:3000/users/${user.id}/address`,
       );
 
@@ -19,6 +20,7 @@ export default function SelectAddress({ addressId, setAddressId }) {
 
     fetchAddresses();
   }, []);
+  console.log(addresses);
   return (
     <div className="flex flex-col ml-6 mb-4">
       <p>Choose Your Address</p>

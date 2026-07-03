@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function OrderPage() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ export default function OrderPage() {
 
   useEffect(() => {
     async function fetchOrder() {
-      const response = await fetch(`http://localhost:3000/orders/${id}`);
+      const response = await apiFetch(`http://localhost:3000/orders/${id}`);
       const data = await response.json();
       console.log(data);
       setOrder(data);
@@ -21,7 +22,7 @@ export default function OrderPage() {
   useEffect(() => {
     if (!order) return;
     async function fetchAddress() {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:3000/address/${order.address_id}`,
       );
       const data = await response.json();
@@ -33,7 +34,7 @@ export default function OrderPage() {
   useEffect(() => {
     if (!order) return;
     async function fetchDesign() {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:3000/designs/${order.design_id}`,
       );
       const data = await response.json();

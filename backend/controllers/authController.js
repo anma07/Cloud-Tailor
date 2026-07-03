@@ -1,30 +1,53 @@
 const { pool } = require("../db");
+const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.basicLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const result = await pool.query(`SELECT * FROM users WHERE email = $1`, [
-      email,
-    ]);
+    const result = await pool.query(
+      `
+      SELECT * FROM users 
+      WHERE email = $1`,
+      [email],
+    );
 
     const user = result.rows[0];
 
     if (!user) {
-      res.status(401).json({
+      return res.status(401).json({
         error: "User Not Found",
       });
     }
 
-    if (user.password !== password) {
-      res.status(401).json({
+    const correctPass = await bcrypt.compare(password, user.password);
+
+    if (!correctPass) {
+      return res.status(401).json({
         error: "Incorrect Password",
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
+
     res.json({
-      id: user.id,
-      username: user.username,
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
     });
   } catch (err) {
     console.error(err);

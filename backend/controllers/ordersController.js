@@ -1,6 +1,12 @@
 const { pool } = require("../db");
 
 exports.getOrders = async (req, res) => {
+  if (req.user.role !== "tailor") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
   try {
     const result = await pool.query(`SELECT * FROM orders`);
     res.json(result.rows);
@@ -16,7 +22,11 @@ exports.getOrder = async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    const result = await pool.query(`SELECT * FROM orders WHERE id = $1`, [id]);
+    const result = await pool.query(
+      `SELECT * FROM orders 
+      WHERE id = $1`,
+      [id],
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -24,7 +34,14 @@ exports.getOrder = async (req, res) => {
       });
     }
 
-    res.json(result.rows[0]);
+    const order = result.rows[0];
+
+    if (req.user.role === "customer" && req.user.id !== order.user_id) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+    res.json(order);
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -34,16 +51,16 @@ exports.getOrder = async (req, res) => {
 };
 
 exports.addOrder = async (req, res) => {
-  const {
-    userId,
-    designId,
-    size,
-    clothSize,
-    addressId,
-    paymentMode,
-    total,
-    status,
-  } = req.body;
+  if (req.user.role !== "customer") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
+  const userId = req.user.id;
+  const status = "REQUESTED";
+
+  const { designId, size, clothSize, addressId, paymentMode, total } = req.body;
 
   try {
     const result = await pool.query(
@@ -76,6 +93,12 @@ exports.addOrder = async (req, res) => {
 };
 
 exports.changeStatus = async (req, res) => {
+  if (req.user.role !== "tailor") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
   const id = Number(req.params.id);
   const { status } = req.body;
 
@@ -83,7 +106,8 @@ exports.changeStatus = async (req, res) => {
     const result = await pool.query(
       `UPDATE orders
       SET status = $1
-      WHERE id = $2`,
+      WHERE id = $2
+      RETURNING *`,
       [status, id],
     );
 

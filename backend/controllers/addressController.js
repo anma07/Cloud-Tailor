@@ -1,6 +1,12 @@
 const { pool } = require("../db");
 
 exports.getAddresses = async (req, res) => {
+  if (req.user.role !== "tailor") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
   try {
     const result = await pool.query(`SELECT * FROM addresses`);
     res.json(result.rows);
@@ -13,6 +19,12 @@ exports.getAddresses = async (req, res) => {
 };
 
 exports.addAddress = async (req, res) => {
+  if (req.user.role !== "customer") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
   const { userId, label, value, pincode } = req.body;
   try {
     const result = await pool.query(
@@ -39,13 +51,23 @@ exports.getAddress = async (req, res) => {
   const id = Number(req.params.id);
 
   try {
-    const result = await pool.query(`SELECT * FROM addresses WHERE id = $1`, [
-      id,
-    ]);
+    const result = await pool.query(
+      `SELECT * FROM addresses 
+      WHERE id = $1`,
+      [id],
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
         error: "Address not found",
+      });
+    }
+
+    const address = result.rows[0];
+
+    if (req.user.role === "customer" && req.user.id !== address.user_id) {
+      return res.status(403).json({
+        error: "Forbidden",
       });
     }
     res.json(result.rows[0]);

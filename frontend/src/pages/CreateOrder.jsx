@@ -2,6 +2,7 @@ import MethodOfPayment from '../components/MethodOfPayment.jsx';
 import SelectAddress from '../components/SelectAddress.jsx';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function CreateOrder() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function CreateOrder() {
       status: 'REQUESTED',
     };
 
-    const response = await fetch('http://localhost:3000/orders', {
+    const response = await apiFetch('http://localhost:3000/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ export default function CreateOrder() {
 
   useEffect(() => {
     async function fetchDesign() {
-      const response = await fetch(`http://localhost:3000/designs/${id}`);
+      const response = await apiFetch(`http://localhost:3000/designs/${id}`);
       const data = await response.json();
 
       setDesign(data);

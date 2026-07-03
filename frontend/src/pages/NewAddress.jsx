@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {apiFetch} from '../api/api'
 
 export default function NewAddress() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function NewAddress() {
       pincode: Number(adrPincode),
     };
 
-    const response = await fetch('http://localhost:3000/address', {
+    const response = await apiFetch('http://localhost:3000/address', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
