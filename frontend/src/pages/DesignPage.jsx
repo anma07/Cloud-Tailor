@@ -1,9 +1,52 @@
+import { apiFetch } from '../api/api';
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 export default function DesignPage() {
+  const user = JSON.parse(localStorage.getItem('user'));
   const { id } = useParams();
   const [design, setDesign] = useState(null);
+  const navigate = useNavigate();
+
+  async function handleDelete() {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this design?',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const response = await apiFetch(`http://localhost:3000/designs/${id}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      alert('Design deleted successfully.');
+      navigate('/designs');
+    } else {
+      alert('Failed to delete design.');
+    }
+  }
+
+  async function handleAddFav() {
+    const design = {
+      designId: id,
+    };
+
+    const response = await apiFetch(`http://localhost:3000/favourites`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(design),
+    });
+
+    if (response.ok) {
+      alert('Added to favourites!');
+    } else {
+      alert('Failed to add to favourites.');
+    }
+  }
 
   useEffect(() => {
     async function fetchDesign() {
@@ -35,9 +78,22 @@ export default function DesignPage() {
             Buy Now
           </button>
         </Link>
-        <button className="w-50 border px-4 py-4 mt-4 hover:bg-gray-200">
-          Add to favourites
-        </button>
+        {user?.role === 'customer' && (
+          <button
+            className="w-50 border px-4 py-4 mt-4 hover:bg-gray-200"
+            onClick={handleAddFav}
+          >
+            Add to Favourites
+          </button>
+        )}
+        {user?.role === 'tailor' && (
+          <button
+            className="w-50 border px-4 py-4 mt-4 hover:bg-gray-200"
+            onClick={handleDelete}
+          >
+            Delete Design
+          </button>
+        )}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ CREATE TABLE designs (
     imgsrc VARCHAR(255) NOT NULL, 
     price NUMERIC(10,2) NOT NULL ,
     days VARCHAR(20) NOT NULL 
+    is_active BOOLEAN NOT NULL DEFAULT TRUE;
 );
 
 CREATE TABLE if NOT EXISTS addresses (
@@ -38,4 +39,12 @@ CREATE TABLE if NOT EXISTS orders (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (design_id) REFERENCES designs(id),
     FOREIGN KEY (address_id) REFERENCES addresses(id)
+);
+
+CREATE TABLE favourites (
+    user_id INTEGER NOT NULL,
+    design_id INTEGER NOT NULL,
+    PRIMARY KEY (user_id, design_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (design_id) REFERENCES designs(id)
 );

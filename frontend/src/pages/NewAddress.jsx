@@ -1,6 +1,6 @@
+import { apiFetch } from '../api/api';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {apiFetch} from '../api/api'
 
 export default function NewAddress() {
   const navigate = useNavigate();

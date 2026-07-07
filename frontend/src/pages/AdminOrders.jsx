@@ -1,6 +1,6 @@
+import { apiFetch } from '../api/api';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import {apiFetch} from '../api/api'
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);

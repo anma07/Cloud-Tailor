@@ -1,6 +1,6 @@
+import { apiFetch } from '../api/api';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {apiFetch} from '../api/api'
 
 export default function UserOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -8,7 +8,9 @@ export default function UserOrdersPage() {
 
   useEffect(() => {
     async function fetchOrders() {
-      const response = await apiFetch(`http://localhost:3000/users/${id}/orders`);
+      const response = await apiFetch(
+        `http://localhost:3000/users/${id}/orders`,
+      );
       const data = await response.json();
       setOrders(data);
     }

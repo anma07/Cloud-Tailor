@@ -1,6 +1,6 @@
+import { apiFetch } from '../api/api';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {apiFetch} from '../api/api'
 
 export default function SelectAddress({ addressId, setAddressId }) {
   const [addresses, setAddresses] = useState([]);

@@ -9,46 +9,68 @@ exports.getDesigns = async (req, res) => {
     if (category) {
       result = await pool.query(
         `SELECT * FROM designs 
-        WHERE category = $1`,
+        WHERE category = $1
+        AND is_active = TRUE`,
         [category],
       );
     } else if (sort) {
       if (sort === "price_asc") {
         result = await pool.query(
           `SELECT * FROM designs 
-          ORDER BY price ASC`,
+          ORDER BY price ASC
+          AND is_active = TRUE`,
         );
       } else if (sort === "price_desc") {
         result = await pool.query(
           `SELECT * FROM designs 
-          ORDER BY price DESC`,
+          ORDER BY price DESC
+          AND is_active = TRUE`,
         );
       } else if (sort === "range_500") {
         result = await pool.query(
           `SELECT * FROM designs 
-          WHERE price <= 500`,
+          WHERE price <= 500
+          AND is_active = TRUE`,
         );
       } else if (sort === "range_500-1000") {
         result = await pool.query(
           `SELECT * FROM designs 
           WHERE price >= 500 
-          AND price <= 1000`,
+          AND price <= 1000
+          AND is_active = TRUE`,
         );
       } else if (sort === "range_1000") {
         result = await pool.query(
           `SELECT * FROM designs 
-          WHERE price >= 1000`,
+          WHERE price >= 1000
+          AND is_active = TRUE`,
         );
       }
     } else if (search) {
       result = await pool.query(
         `SELECT * FROM designs
-        WHERE name ILIKE $1`,
+        WHERE name ILIKE $1
+        AND is_active = TRUE`,
         [`%${search}%`],
       );
     } else {
-      result = await pool.query(`SELECT * FROM designs`);
+      result = await pool.query(`
+        SELECT * FROM designs
+        WHERE is_active = TRUE;
+        `);
     }
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+};
+
+exports.getAllDesigns = async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM designs`);
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -100,6 +122,38 @@ exports.addDesign = async (req, res) => {
       [name, category, imgsrc, price, days],
     );
     res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+};
+
+exports.deleteDesign = async (req, res) => {
+  if (req.user.role !== "tailor") {
+    return res.status(403).json({
+      error: "Forbidden",
+    });
+  }
+
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(
+      `UPDATE designs
+      SET is_active = FALSE
+      WHERE id = $1
+      RETURNING *`,
+      [id],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Design not found",
+      });
+    }
+    res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
     res.status(500).json({

@@ -25,7 +25,8 @@ exports.addAddress = async (req, res) => {
     });
   }
 
-  const { userId, label, value, pincode } = req.body;
+  const userId = req.user.id;
+  const { label, value, pincode } = req.body;
   try {
     const result = await pool.query(
       `INSERT INTO addresses (user_id, label, value, pincode)
@@ -42,7 +43,7 @@ exports.addAddress = async (req, res) => {
     }
     console.error(err);
     res.status(500).json({
-      error: "Datbase error",
+      error: "Database error",
     });
   }
 };

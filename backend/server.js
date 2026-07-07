@@ -5,6 +5,7 @@ const ordersRoutes = require("./routes/orders");
 const designsRoutes = require("./routes/designs");
 const addressRoutes = require("./routes/address");
 const authRoutes = require("./routes/auth");
+const favouriteRoutes = require("./routes/favourites");
 const app = express();
 const port = 3000;
 
@@ -15,6 +16,7 @@ app.use("/users", usersRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/designs", designsRoutes);
 app.use("/address", addressRoutes);
+app.use("/favourites", favouriteRoutes);
 app.use("/login", authRoutes);
 app.use("/uploads", express.static("uploads"));
 

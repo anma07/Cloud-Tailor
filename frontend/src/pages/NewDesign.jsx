@@ -1,5 +1,5 @@
+import { apiFetch } from '../api/api';
 import { useState } from 'react';
-import {apiFetch} from '../api/api'
 
 export default function NewDesign() {
   const [name, setName] = useState('');

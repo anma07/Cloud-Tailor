@@ -3,7 +3,9 @@ import AdminOrders from './pages/AdminOrders.jsx';
 import BrowseDesigns from './pages/BrowseDesigns.jsx';
 import CreateAccount from './pages/CreateAccount.jsx';
 import CreateOrder from './pages/CreateOrder.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import DesignPage from './pages/DesignPage.jsx';
+import FavouritesPage from './pages/FavouritesPage.jsx';
 import AuthLogin from './pages/Login.jsx';
 import NewAddress from './pages/NewAddress.jsx';
 import NewDesign from './pages/NewDesign.jsx';
@@ -17,7 +19,8 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<AuthLogin />} />{' '}
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<AuthLogin />} />
           <Route path="/designs" element={<BrowseDesigns />} />
           <Route path="/designs/:id" element={<DesignPage />} />
           <Route path="/designs/:id/create-order" element={<CreateOrder />} />
@@ -28,6 +31,7 @@ export default function App() {
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/:id/my-orders" element={<UserOrdersPage />} />
           <Route path="/new-design" element={<NewDesign />} />
+          <Route path="/my-favourites" element={<FavouritesPage />} />
         </Routes>
       </BrowserRouter>
     </>

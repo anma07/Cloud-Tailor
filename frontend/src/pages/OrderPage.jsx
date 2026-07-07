@@ -1,6 +1,7 @@
+import { apiFetch } from '../api/api';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {apiFetch} from '../api/api'
+import Navbar from '../components/Navbar.jsx';
 
 export default function OrderPage() {
   const { id } = useParams();
@@ -53,6 +54,8 @@ export default function OrderPage() {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="m-6">
       <h1 className="text-2xl">Your Order has been Placed!</h1>
       <p>Design Name: {design.name}</p>
@@ -66,5 +69,6 @@ export default function OrderPage() {
       </p>
       <p>Mode of Payment: {order.payment_mode}</p>
     </div>
+    </>
   );
 }

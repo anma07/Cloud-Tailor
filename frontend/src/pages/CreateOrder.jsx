@@ -1,8 +1,8 @@
+import { apiFetch } from '../api/api';
 import MethodOfPayment from '../components/MethodOfPayment.jsx';
 import SelectAddress from '../components/SelectAddress.jsx';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {apiFetch} from '../api/api'
 
 export default function CreateOrder() {
   const navigate = useNavigate();
