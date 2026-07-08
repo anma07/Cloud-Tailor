@@ -6,9 +6,34 @@ export default function NewAddress() {
   const navigate = useNavigate();
   const [adrLabel, setAdrLabel] = useState('');
   const [adrValue, setAdrValue] = useState('');
+  const [error, setError] = useState('');
   const [adrPincode, setAdrPincode] = useState('');
 
   async function handleAddAddress() {
+    if(adrLabel === ''){
+      setError("Pls add a label");
+      return;
+    }
+
+    if(adrValue === ''){
+      setError("Pls add a Value");
+      return;
+    }
+
+    if(adrPincode === ''){
+      setError("Pls add a pincode");
+      return;
+    }
+    setError('')
+
+    const confirmed = window.confirm(
+      'Confirm your address',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
       return <p>Please log in first.</p>;
@@ -54,6 +79,7 @@ export default function NewAddress() {
         value={adrPincode}
         onChange={(e) => setAdrPincode(e.target.value)}
       />
+      {error && <p className="text-md text-red-500">{error}</p>}
       <button
         className="block border px-4 py-4 rounded-lg mt-4 hover:bg-gray-100 hover:shadow-lg"
         onClick={handleAddAddress}

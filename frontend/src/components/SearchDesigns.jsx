@@ -53,7 +53,7 @@ export function FilterDropdown() {
         break;
 
       case 'trending':
-        navigate(`designs?trending=true`);
+        navigate(`/designs?trending=true`);
         break;
 
       case 'none':
@@ -72,7 +72,7 @@ export function FilterDropdown() {
         Filter
       </option>
       <option value="none">None</option>
-      <option value="Trending">Trending</option>
+      <option value="trending">Trending</option>
       <optgroup label="Category">
         <option value="T-Shirts">T-Shirts</option>
         <option value="Jackets">Jackets</option>

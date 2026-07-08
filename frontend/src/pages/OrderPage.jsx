@@ -1,7 +1,7 @@
 import { apiFetch } from '../api/api';
+import Navbar from '../components/Navbar.jsx';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar.jsx';
 
 export default function OrderPage() {
   const { id } = useParams();
@@ -55,20 +55,20 @@ export default function OrderPage() {
 
   return (
     <>
-    <Navbar />
-    <div className="m-6">
-      <h1 className="text-2xl">Your Order has been Placed!</h1>
-      <p>Design Name: {design.name}</p>
-      <p>Category: {design.category}</p>
-      <p>Price: {order.total}</p>
-      <p>Estimated Time: {design.days} days</p>
-      <p>Size: {order.size}</p>
-      <p>Cloth Size: {order.cloth_size} square metres</p>
-      <p>
-        Address of Delivery: {address ? address.value : 'Loading Address...'}
-      </p>
-      <p>Mode of Payment: {order.payment_mode}</p>
-    </div>
+      <Navbar />
+      <div className="m-6">
+        <h1 className="text-2xl">Your Order has been Placed!</h1>
+        <p>Design Name: {design.name}</p>
+        <p>Category: {design.category}</p>
+        <p>Price: {order.total}</p>
+        <p>Estimated Time: {design.days} days</p>
+        <p>Size: {order.size}</p>
+        <p>Cloth Size: {order.cloth_size} square metres</p>
+        <p>
+          Address of Delivery: {address ? address.value : 'Loading Address...'}
+        </p>
+        <p>Mode of Payment: {order.payment_mode}</p>
+      </div>
     </>
   );
 }

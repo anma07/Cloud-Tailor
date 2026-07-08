@@ -2,7 +2,6 @@ import { apiFetch } from '../api/api';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-
 export default function OrderPageCard() {
   const { id } = useParams();
   const [order, setOrder] = useState(null);

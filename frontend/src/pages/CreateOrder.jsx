@@ -6,15 +6,48 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 export default function CreateOrder() {
   const navigate = useNavigate();
-  const [size, setSize] = useState('XS');
+  const [size, setSize] = useState('');
   const [clothSize, setClothSize] = useState(0);
   const [addressId, setAddressId] = useState(0);
   const [mode, setMode] = useState('');
   const [total, setTotal] = useState(0);
   const [design, setDesign] = useState(null);
+  const [error, setError] = useState('');
   const { id } = useParams();
 
   async function handlePlaceOrder() {
+    const clothSizeRegex = /^\d+(\.\d{1,2})?$/;
+
+    if (!size) {
+      setError('Please select a size.');
+      return;
+    }
+
+    if (!clothSizeRegex.test(clothSize) || Number(clothSize) <= 0) {
+      setError('Pls enter valid cloth size (upto 2 decimals)');
+      return;
+    }
+
+    if (addressId === 0) {
+      setError('Pls select an address');
+      return;
+    }
+
+    if (mode === '') {
+      setError('Pls select a mode of payment');
+      return;
+    }
+
+    setError('');
+
+    const confirmed = window.confirm(
+      'Confirm your order',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
       return <p>Please log in first.</p>;
@@ -81,6 +114,7 @@ export default function CreateOrder() {
       />
       <SelectAddress addressId={addressId} setAddressId={setAddressId} />
       <MethodOfPayment mode={mode} setMode={setMode} />
+      {error && <p className="ml-4 text-md text-red-500">{error}</p>}
       <div className="flex justify-end m-4">
         <button
           className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl"

@@ -27,7 +27,7 @@ export default function LoginForm() {
       setError(null);
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      navigate('/designs');
+      navigate('/');
     } else {
       setError(data.error);
     }

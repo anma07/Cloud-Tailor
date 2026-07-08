@@ -17,7 +17,6 @@ export default function SelectAddress({ addressId, setAddressId }) {
       const data = await response.json();
       setAddresses(data);
     }
-
     fetchAddresses();
   }, []);
   console.log(addresses);

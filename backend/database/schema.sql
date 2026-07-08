@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS favourites, orders, addresses, designs, users CASCADE;
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
@@ -12,12 +14,12 @@ CREATE TABLE designs (
     name VARCHAR(150) NOT NULL, 
     category VARCHAR(50) NOT NULL, 
     imgsrc VARCHAR(255) NOT NULL, 
-    price NUMERIC(10,2) NOT NULL ,
-    days VARCHAR(20) NOT NULL 
-    is_active BOOLEAN NOT NULL DEFAULT TRUE;
+    price NUMERIC(10,2) NOT NULL,
+    days VARCHAR(20) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TABLE if NOT EXISTS addresses (
+CREATE TABLE addresses (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     label VARCHAR(50) NOT NULL,
@@ -26,7 +28,7 @@ CREATE TABLE if NOT EXISTS addresses (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE if NOT EXISTS orders (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     design_id INTEGER NOT NULL,

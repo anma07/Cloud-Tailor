@@ -1,4 +1,5 @@
 import './index.css';
+import AddressPage from './pages/AddressPage.jsx';
 import AdminOrders from './pages/AdminOrders.jsx';
 import BrowseDesigns from './pages/BrowseDesigns.jsx';
 import CreateAccount from './pages/CreateAccount.jsx';
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/:id/my-orders" element={<UserOrdersPage />} />
           <Route path="/new-design" element={<NewDesign />} />
           <Route path="/my-favourites" element={<FavouritesPage />} />
+          <Route path="/addresses" element={<AddressPage />} />
         </Routes>
       </BrowserRouter>
     </>

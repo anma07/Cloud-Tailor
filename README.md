@@ -22,7 +22,11 @@ npm install
 psql -h localhost -U postgres -d cloud_tailor -f database/schema.sql
 ```
 
-- Run this to seed with mock data:
+- Run this to seed with mock data for users:
+```bash
+node database/seed.js
+```
+then for other tables:
 ```bash
 psql -h localhost -U postgres -d cloud_tailor -f database/seed.sql
 ```

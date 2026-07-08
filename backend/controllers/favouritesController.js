@@ -55,3 +55,24 @@ exports.getAllFaves = async (req, res) => {
     });
   }
 };
+
+exports.deleteFavourite = async (req, res) => {
+  const designId = Number(req.params.id);
+  const userId = req.user.id;
+
+  try {
+    const result = await pool.query(
+      `DELETE FROM favourites
+      WHERE user_id = $1
+      AND design_id = $2`,
+      [userId, designId],
+    );
+
+    res.status(200).json({ message: "Removed" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Database error",
+    });
+  }
+};

@@ -7,8 +7,44 @@ export default function NewDesign() {
   const [image, setImage] = useState(null);
   const [price, setPrice] = useState(0);
   const [days, setDays] = useState('');
+  const [error, setError] = useState('');
 
   async function handleSubmit() {
+    if (name === ''){
+      setError("Pls add a name");
+      return;
+    }
+
+    if(category===''){
+      setError("Pls add a category");
+      return;
+    }
+
+    if(!image){
+      setError("Pls add an image");
+      return;
+    }
+
+    if(Number(price) === 0){
+      setError("Pls set a price");
+      return;
+    }
+
+    if(days === ''){
+      setError("Pls add days");
+      return;
+    }
+
+    setError('')
+
+    const confirmed = window.confirm(
+      'Confirm the design',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const formData = new FormData();
     const token = localStorage.getItem('token');
     formData.append('name', name);
@@ -45,6 +81,9 @@ export default function NewDesign() {
         value={category}
         onChange={(e) => setCategory(e.target.value)}
       >
+        <option value="" disabled>
+          Select Category
+        </option>
         <option value="T-Shirts">T-Shirts</option>
         <option value="Jackets">Jackets</option>
         <option value="Dresses">Dresses</option>
@@ -74,6 +113,7 @@ export default function NewDesign() {
         onChange={(e) => setDays(e.target.value)}
         required
       />
+      {error && <p className="text-md text-red-500">{error}</p>}
       <button
         className="border px-4 py-4 rounded w-100 hover:shadow-lg mt-4"
         onClick={handleSubmit}

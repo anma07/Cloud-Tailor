@@ -1,6 +1,6 @@
 import DesignCard from '../components/DesignCard.jsx';
-import SearchDesigns from '../components/SearchDesigns.jsx';
 import Navbar from '../components/Navbar.jsx';
+import SearchDesigns from '../components/SearchDesigns.jsx';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ export default function BrowseDesigns() {
   const category = searchParams.get('category');
   const sort = searchParams.get('sort');
   const search = searchParams.get('search');
+  const trending = searchParams.get('trending');
 
   useEffect(() => {
     let url = 'http://localhost:3000/designs';
@@ -27,6 +28,10 @@ export default function BrowseDesigns() {
       url += `?search=${search}`;
     }
 
+    if (trending) {
+      url += `?trending=true`;
+    }
+
     async function fetchDesigns() {
       const response = await fetch(url);
       const data = await response.json();
@@ -34,28 +39,28 @@ export default function BrowseDesigns() {
       setDesigns(data);
     }
     fetchDesigns();
-  }, [category, sort, search]);
+  }, [category, sort, search, trending]);
 
   return (
     <>
-    <Navbar />
-    <div className="m-8">
-      <h1 className="font-serif text-7xl">Cloud Tailor</h1>
-      <p className="font-serif text-xl">Browse our most trending designs!</p>
-      <SearchDesigns />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-6">
-        {designs.map((design) => (
-          <DesignCard
-            key={design.id}
-            id={design.id}
-            name={design.name}
-            category={design.category}
-            imgsrc={design.imgsrc}
-            price={design.price}
-          />
-        ))}
+      <Navbar />
+      <div className="m-8">
+        <h1 className="font-serif text-7xl">Cloud Tailor</h1>
+        <p className="font-serif text-xl">Browse our most trending designs!</p>
+        <SearchDesigns />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-6">
+          {designs.map((design) => (
+            <DesignCard
+              key={design.id}
+              id={design.id}
+              name={design.name}
+              category={design.category}
+              imgsrc={design.imgsrc}
+              price={design.price}
+            />
+          ))}
+        </div>
       </div>
-    </div>
     </>
   );
 }

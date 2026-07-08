@@ -5,8 +5,27 @@ export default function CreateAccount() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [error, setError] = useState('');
 
-  async function handleCreateAccount() {
+  async function handleCreateAccount(e) {
+    e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!phoneRegex.test(phone)) {
+      setError('Pls enter a valid phone number');
+      return;
+    }
+
+    setError('');
+
     const user = {
       username: name,
       email,
@@ -31,7 +50,11 @@ export default function CreateAccount() {
   }
 
   return (
-    <div className="flex flex-col m-10">
+    <form
+      className="flex flex-col m-10"
+      noValidate
+      onSubmit={handleCreateAccount}
+    >
       <h1 className="text-4xl">Create Account:</h1>
       <label>Enter Your Name:</label>
       <input
@@ -65,12 +88,13 @@ export default function CreateAccount() {
         onChange={(e) => setPhone(e.target.value)}
         required
       />
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
       <button
         className="border px-4 py-4 rounded-md w-100 mt-6 hover:shadow-lg"
-        onClick={handleCreateAccount}
+        type="submit"
       >
         Create Account
       </button>
-    </div>
+    </form>
   );
 }

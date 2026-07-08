@@ -22,7 +22,7 @@ export default function Navbar() {
       {user?.role === 'customer' && (
         <>
           <Link
-            to={`${userId}/my-orders`}
+            to={`/${userId}/my-orders`}
             className="rounded-md px-3 py-2 text-2xl transition hover:bg-purple-100"
           >
             My Orders

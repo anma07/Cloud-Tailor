@@ -2,7 +2,7 @@ const { pool } = require("../db");
 const path = require("path");
 
 exports.getDesigns = async (req, res) => {
-  const { category, sort, search } = req.query;
+  const { category, sort, search, trending } = req.query;
 
   try {
     let result;
@@ -52,6 +52,16 @@ exports.getDesigns = async (req, res) => {
         WHERE name ILIKE $1
         AND is_active = TRUE`,
         [`%${search}%`],
+      );
+    } else if (trending) {
+      result = await pool.query(
+        `SELECT d.*, COUNT(o.id) AS order_count
+        FROM designs d
+        LEFT JOIN orders o
+        ON d.id = o.design_id
+        WHERE d.is_active = TRUE
+        GROUP BY d.id
+        ORDER BY order_count DESC`,
       );
     } else {
       result = await pool.query(`
