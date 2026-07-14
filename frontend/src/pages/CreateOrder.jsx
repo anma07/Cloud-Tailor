@@ -40,9 +40,7 @@ export default function CreateOrder() {
 
     setError('');
 
-    const confirmed = window.confirm(
-      'Confirm your order',
-    );
+    const confirmed = window.confirm('Confirm your order');
 
     if (!confirmed) {
       return;
@@ -95,33 +93,69 @@ export default function CreateOrder() {
   }
 
   return (
-    <div className="border flex flex-col m-10 max-w-xl mx-auto">
-      <DesignSummary
-        name={design.name}
-        category={design.category}
-        price={design.price}
-        days={design.days}
-      />
-      <div className="flex">
-        <SelectSize size={size} setSize={setSize} />
-        <ClothSize clothSize={clothSize} setClothSize={setClothSize} />
-      </div>
-      <OrderSummary
-        price={design.price}
-        deliverycharges="100"
-        total={total}
-        setTotal={setTotal}
-      />
-      <SelectAddress addressId={addressId} setAddressId={setAddressId} />
-      <MethodOfPayment mode={mode} setMode={setMode} />
-      {error && <p className="ml-4 text-md text-red-500">{error}</p>}
-      <div className="flex justify-end m-4">
-        <button
-          className="border px-4 py-4 hover:bg-gray-100 hover:shadow-xl"
-          onClick={handlePlaceOrder}
-        >
-          Proceed →
-        </button>
+    <div className="max-w-5xl mx-auto mt-10 px-4 md:px-8 bg-white min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-8">
+        Checkout
+      </h1>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Left 2 Columns: Order Details & Selection Form */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Design Details Card */}
+          <div className="bg-gray-50/50 rounded-2xl p-6 border border-gray-100">
+            <DesignSummary
+              name={design.name}
+              category={design.category}
+              price={design.price}
+              days={design.days}
+            />
+          </div>
+
+          {/* Sizing Section */}
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
+            <h3 className="text-lg font-bold text-gray-900 tracking-tight">
+              Sizing & Fabric
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <SelectSize size={size} setSize={setSize} />
+              <ClothSize clothSize={clothSize} setClothSize={setClothSize} />
+            </div>
+          </div>
+
+          {/* Address & Payment Sections */}
+          <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
+            <SelectAddress addressId={addressId} setAddressId={setAddressId} />
+            <div className="h-[1px] bg-gray-100 w-full" />
+            <MethodOfPayment mode={mode} setMode={setMode} />
+          </div>
+        </div>
+
+        {/* Right Column: Sticky Pricing & Action Block */}
+        <div className="lg:col-span-1 bg-white border border-purple-100 rounded-2xl p-6 shadow-sm shadow-purple-100/50 lg:sticky lg:top-24">
+          <h3 className="text-lg font-bold text-gray-900 mb-4 tracking-tight">
+            Payment Summary
+          </h3>
+
+          <OrderSummary
+            price={design.price}
+            deliverycharges="100"
+            total={total}
+            setTotal={setTotal}
+          />
+
+          {error && (
+            <p className="mt-4 text-sm font-medium text-red-600 bg-red-50 px-3 py-2 rounded-lg border border-red-100">
+              {error}
+            </p>
+          )}
+
+          <button
+            className="w-full mt-6 rounded-xl bg-purple-600 py-4 font-semibold text-white shadow-md shadow-purple-200 transition-all duration-200 hover:bg-purple-700 hover:scale-[1.01] active:scale-[0.99]"
+            onClick={handlePlaceOrder}
+          >
+            Place Order →
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -129,19 +163,17 @@ export default function CreateOrder() {
 
 export function SelectSize({ size, setSize }) {
   return (
-    <div className="flex flex-col mx-8">
-      <label className="block text-black text-md font-bold m-2">
-        Select Size:
+    <div className="flex flex-col">
+      <label className="text-sm font-semibold text-gray-700 mb-2">
+        Select Size
       </label>
       <select
-        className="border rounded-lg px-3 py-2 m-2"
+        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
         value={size}
-        onChange={(e) => {
-          setSize(e.target.value);
-        }}
+        onChange={(e) => setSize(e.target.value)}
       >
         <option value="" disabled>
-          Select Size
+          Choose your standard size
         </option>
         <option value="XS">XS</option>
         <option value="S">S</option>
@@ -150,38 +182,59 @@ export function SelectSize({ size, setSize }) {
         <option value="XL">XL</option>
         <option value="XXL">XXL</option>
       </select>
-      <p>Your selected size is {size}</p>
+      {size && (
+        <p className="mt-2 text-xs font-medium text-purple-600">
+          Selected Profile: Size {size}
+        </p>
+      )}
     </div>
   );
 }
 
 export function ClothSize({ clothSize, setClothSize }) {
   return (
-    <div>
-      <label className="block text-black text-md font-bold m-2">
-        Fabric Size Available
+    <div className="flex flex-col">
+      <label className="text-sm font-semibold text-gray-700 mb-2">
+        Fabric Size Available{' '}
+        <span className="text-xs font-normal text-gray-400">(sq. metres)</span>
       </label>
-      <input
-        className="block border rounded-md"
-        value={clothSize}
-        onChange={(e) => {
-          setClothSize(e.target.value);
-        }}
-      />
-      <p className="text-gray-500">(in sq metres)</p>
-      <p>You have {clothSize} square metres of cloth</p>
+      <div className="relative">
+        <input
+          type="number"
+          className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
+          placeholder="e.g. 2.5"
+          value={clothSize}
+          onChange={(e) => setClothSize(e.target.value)}
+        />
+      </div>
+      {clothSize && (
+        <p className="mt-2 text-xs font-medium text-gray-500">
+          You are providing {clothSize} m² of material.
+        </p>
+      )}
     </div>
   );
 }
 
 export function DesignSummary({ name, category, price, days }) {
   return (
-    <div className="block m-4">
-      <h2 className="font-serif text-2xl">Design Summary</h2>
-      <p className="m-2">Design: {name}</p>
-      <p className="m-2">Category: {category}</p>
-      <p className="m-2">Base Price: ₹{price}</p>
-      <p className="m-2">Estimated time: {days} days</p>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-wider text-purple-600">
+          {category}
+        </span>
+        <h2 className="text-xl font-bold text-gray-900 mt-0.5">{name}</h2>
+        <p className="text-sm text-gray-500 mt-1">
+          Fulfillment timeline:{' '}
+          <span className="font-medium text-gray-700">{days} days</span>
+        </p>
+      </div>
+      <div className="text-left sm:text-right">
+        <span className="text-xs text-gray-400 block uppercase font-medium">
+          Base Cost
+        </span>
+        <span className="text-2xl font-black text-gray-900">₹{price}</span>
+      </div>
     </div>
   );
 }
