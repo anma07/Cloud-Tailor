@@ -62,6 +62,16 @@ export default function CreateOrder() {
       status: 'REQUESTED',
     };
 
+    if (mode === 'UPI') {
+      alert('creating upi order');
+      await handleRazorpayOrder(order);
+    } else {
+      alert('create cod order');
+      await createOrder(order);
+    }
+  }
+
+  async function createOrder(order) {
     const response = await apiFetch('http://localhost:3000/orders', {
       method: 'POST',
       headers: {
@@ -76,6 +86,46 @@ export default function CreateOrder() {
     } else {
       alert('Failed to place order');
     }
+  }
+
+  async function handleRazorpayOrder(order) {
+    const response = await apiFetch('http://localhost:3000/pay/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        total: order.total,
+      }),
+    });
+
+    const razorpayOrder = await response.json();
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+      order_id: razorpayOrder.id,
+      name: 'Cloud Tailor',
+
+      handler: async function (payment) {
+        const verify = await apiFetch('http://localhost:3000/pay/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payment),
+        });
+        if (!verify.ok) {
+          alert('Payment verification failed.');
+          return;
+        }
+
+        await createOrder(order);
+      },
+    };
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
   }
 
   useEffect(() => {
@@ -99,9 +149,7 @@ export default function CreateOrder() {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* Left 2 Columns: Order Details & Selection Form */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Design Details Card */}
           <div className="bg-gray-50/50 rounded-2xl p-6 border border-gray-100">
             <DesignSummary
               name={design.name}
@@ -110,8 +158,6 @@ export default function CreateOrder() {
               days={design.days}
             />
           </div>
-
-          {/* Sizing Section */}
           <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
             <h3 className="text-lg font-bold text-gray-900 tracking-tight">
               Sizing & Fabric
@@ -121,34 +167,27 @@ export default function CreateOrder() {
               <ClothSize clothSize={clothSize} setClothSize={setClothSize} />
             </div>
           </div>
-
-          {/* Address & Payment Sections */}
           <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-6">
             <SelectAddress addressId={addressId} setAddressId={setAddressId} />
             <div className="h-[1px] bg-gray-100 w-full" />
             <MethodOfPayment mode={mode} setMode={setMode} />
           </div>
         </div>
-
-        {/* Right Column: Sticky Pricing & Action Block */}
         <div className="lg:col-span-1 bg-white border border-purple-100 rounded-2xl p-6 shadow-sm shadow-purple-100/50 lg:sticky lg:top-24">
           <h3 className="text-lg font-bold text-gray-900 mb-4 tracking-tight">
             Payment Summary
           </h3>
-
           <OrderSummary
             price={design.price}
             deliverycharges="100"
             total={total}
             setTotal={setTotal}
           />
-
           {error && (
             <p className="mt-4 text-sm font-medium text-red-600 bg-red-50 px-3 py-2 rounded-lg border border-red-100">
               {error}
             </p>
           )}
-
           <button
             className="w-full mt-6 rounded-xl bg-purple-600 py-4 font-semibold text-white shadow-md shadow-purple-200 transition-all duration-200 hover:bg-purple-700 hover:scale-[1.01] active:scale-[0.99]"
             onClick={handlePlaceOrder}

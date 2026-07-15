@@ -6,6 +6,7 @@ const designsRoutes = require("./routes/designs");
 const addressRoutes = require("./routes/address");
 const authRoutes = require("./routes/auth");
 const favouriteRoutes = require("./routes/favourites");
+const payRoutes = require("./routes/pay");
 const app = express();
 const port = 3000;
 
@@ -18,6 +19,7 @@ app.use("/designs", designsRoutes);
 app.use("/address", addressRoutes);
 app.use("/favourites", favouriteRoutes);
 app.use("/login", authRoutes);
+app.use("/pay", payRoutes);
 app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
