@@ -2,18 +2,34 @@ import { Link } from 'react-router-dom';
 
 export default function DesignCard({ id, name, category, price, imgsrc }) {
   return (
-    <Link to={`/designs/${id}`}>
-      <div className="border content-center rounded-md hover:shadow-lg">
-        <h3 className="m-1 text-xl bg-purple-100 px-2 py-2 rounded">{name}</h3>
-        <img
-          src={`http://localhost:3000${imgsrc}`}
-          alt={name}
-          className="h-48 w-48"
-        />
-        <p className="m-2">Category: {category}</p>
-        <h3 className="font-serif m-2 text-xl border px-2 py-2">
-          Price: ₹{price}
-        </h3>
+    <Link to={`/designs/${id}`} className="group block">
+      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-100/60">
+        {/* Unaltered Image Area - No color behind image */}
+        <div className="relative aspect-square w-full overflow-hidden border-b border-gray-100">
+          <img
+            src={`http://localhost:3000${imgsrc}`}
+            alt={name}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Lavender/White Category Badge */}
+          <span className="absolute top-3 left-3 rounded-md bg-white/90 backdrop-blur-sm border border-purple-100 px-2.5 py-1 text-xs font-semibold tracking-wider text-purple-600 uppercase shadow-sm">
+            {category}
+          </span>
+        </div>
+
+        {/* Content Area */}
+        <div className="p-4">
+          <h3 className="text-lg font-bold tracking-tight text-gray-800 transition duration-200 group-hover:text-purple-600">
+            {name}
+          </h3>
+
+          <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Price
+            </span>
+            <span className="text-xl font-black text-purple-600">₹{price}</span>
+          </div>
+        </div>
       </div>
     </Link>
   );

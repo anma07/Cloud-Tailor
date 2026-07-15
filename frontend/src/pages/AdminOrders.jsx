@@ -22,9 +22,11 @@ export default function AdminOrders() {
   console.log(orders);
 
   return (
-    <div className="max-w-4xl mx-auto m-4">
-      <h1 className="text-4xl">Orders:</h1>
-      <div className="grid grid-cols-1">
+    <div className="max-w-4xl mx-auto m-4 px-4">
+      <h1 className="text-3xl font-black tracking-tight text-gray-900 mb-6">
+        Orders:
+      </h1>
+      <div className="grid grid-cols-1 gap-2">
         {orders.map((order) => (
           <OrderCard
             key={order.id}
@@ -59,15 +61,31 @@ function OrderCard({ id, designId, size, clothSize, status }) {
 
   return (
     <Link to={`/orders/${id}`}>
-      <div className="border rounded-md m-4">
-        <h1 className="text-2xl">Order: {id}</h1>
-        <p>Design Name: {design.name}</p>
-        <p>Design Category: {design.category}</p>
-        <div className="flex gap-8">
-          <p>Size: {size}</p>
-          <p>Clothsize: {clothSize}</p>
+      <div className="border border-gray-100 rounded-2xl m-4 p-5 bg-white shadow-sm transition hover:shadow-md">
+        <h1 className="text-xl font-bold text-gray-900 mb-3">Order: #{id}</h1>
+        <p className="text-sm text-gray-600 mb-1.5">
+          <span className="font-semibold text-gray-800">Design Name:</span>{' '}
+          {design.name}
+        </p>
+        <p className="text-sm text-gray-600 mb-3">
+          <span className="font-semibold text-gray-800">Design Category:</span>{' '}
+          {design.category}
+        </p>
+        <div className="flex gap-8 border-y border-gray-50 py-2 mb-3">
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Size:</span> {size}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Clothsize:</span>{' '}
+            {clothSize}
+          </p>
         </div>
-        <p>Status: {status}</p>
+        <p className="text-sm font-semibold text-gray-800">
+          Status:{' '}
+          <span className="ml-1 inline-block px-2.5 py-0.5 rounded-full text-xs font-bold tracking-wide uppercase bg-purple-50 text-purple-700 border border-purple-100">
+            {status}
+          </span>
+        </p>
       </div>
     </Link>
   );

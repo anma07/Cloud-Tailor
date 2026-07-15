@@ -35,20 +35,27 @@ export default function FavouritesPage() {
   return (
     <>
       <Navbar />
-      <div className="m-8">
-        <h1 className="font-serif text-4xl">Your Favourite Designs:</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-6">
+      <div className="m-8 max-w-7xl mx-auto px-4">
+        <h1 className="text-3xl font-black tracking-tight text-gray-900 mb-6">
+          Your Favourite Designs:
+        </h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 my-6">
           {designs.map((design) => (
-            <div key={design.id}>
-              <DesignCard
-                id={design.id}
-                name={design.name}
-                category={design.category}
-                imgsrc={design.imgsrc}
-                price={design.price}
-              />
+            <div
+              key={design.id}
+              className="flex flex-col h-full justify-between bg-white rounded-xl"
+            >
+              <div className="flex-grow">
+                <DesignCard
+                  id={design.id}
+                  name={design.name}
+                  category={design.category}
+                  imgsrc={design.imgsrc}
+                  price={design.price}
+                />
+              </div>
               <button
-                className="border px-2 py-2 mt-2 rounded hover:bg-purple-100"
+                className="w-full mt-3 text-xs font-semibold py-2 px-3 rounded-lg text-rose-600 bg-rose-50 border border-rose-100 hover:bg-rose-600 hover:text-white hover:border-transparent transition duration-200"
                 onClick={() => handleRemove(design.id)}
               >
                 Remove from Favourites

@@ -23,19 +23,23 @@ export default function AddressPage() {
   return (
     <>
       <Navbar />
-      <div className="m-6">
-        <h1 className="text-4xl">Your Addresses:</h1>
-        {addresses.map((adr) => {
-          return (
-            <AddressCard
-              key={adr.id}
-              id={adr.id}
-              label={adr.label}
-              value={adr.value}
-              pincode={adr.pincode}
-            />
-          );
-        })}
+      <div className="m-6 max-w-2xl mx-auto px-4">
+        <h1 className="text-3xl font-black tracking-tight text-gray-900 mb-6">
+          Your Addresses:
+        </h1>
+        <div className="space-y-4">
+          {addresses.map((adr) => {
+            return (
+              <AddressCard
+                key={adr.id}
+                id={adr.id}
+                label={adr.label}
+                value={adr.value}
+                pincode={adr.pincode}
+              />
+            );
+          })}
+        </div>
       </div>
     </>
   );

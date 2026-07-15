@@ -44,10 +44,13 @@ export default function BrowseDesigns() {
   return (
     <>
       <Navbar />
-      <div className="m-8">
-        <h1 className="font-serif text-7xl">Cloud Tailor</h1>
-        <p className="font-serif text-xl">Browse our most trending designs!</p>
-        <SearchDesigns />
+      <div className="m-8 max-w-7xl mx-auto px-4">
+        <p className="text-2xl font-bold text-gray-900 tracking-tight mb-4">
+          Browse our most trending designs!
+        </p>
+        <div className="mb-8">
+          <SearchDesigns />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 m-6">
           {designs.map((design) => (
             <DesignCard
