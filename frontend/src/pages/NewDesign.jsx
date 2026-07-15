@@ -1,7 +1,9 @@
 import { apiFetch } from '../api/api';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewDesign() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [image, setImage] = useState(null);
@@ -58,6 +60,7 @@ export default function NewDesign() {
 
     if (response.ok) {
       alert('New Design Created');
+      navigate('/designs');
     } else {
       alert('Failed to create new design');
     }

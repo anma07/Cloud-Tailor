@@ -63,10 +63,8 @@ export default function CreateOrder() {
     };
 
     if (mode === 'UPI') {
-      alert('creating upi order');
       await handleRazorpayOrder(order);
     } else {
-      alert('create cod order');
       await createOrder(order);
     }
   }

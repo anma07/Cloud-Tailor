@@ -44,8 +44,8 @@ export default function BrowseDesigns() {
   return (
     <>
       <Navbar />
-      <div className="m-8 max-w-7xl mx-auto px-4">
-        <p className="text-2xl font-bold text-gray-900 tracking-tight mb-4">
+      <div className="m-8 max-w-8xl mx-auto">
+        <p className="ml-6 text-2xl font-bold text-gray-900 tracking-tight mb-4">
           Browse our most trending designs!
         </p>
         <div className="mb-8">

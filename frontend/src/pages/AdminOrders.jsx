@@ -1,4 +1,5 @@
 import { apiFetch } from '../api/api';
+import Navbar from '../components/Navbar.jsx';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
@@ -22,23 +23,26 @@ export default function AdminOrders() {
   console.log(orders);
 
   return (
-    <div className="max-w-4xl mx-auto m-4 px-4">
-      <h1 className="text-3xl font-black tracking-tight text-gray-900 mb-6">
-        Orders:
-      </h1>
-      <div className="grid grid-cols-1 gap-2">
-        {orders.map((order) => (
-          <OrderCard
-            key={order.id}
-            id={order.id}
-            designId={order.design_id}
-            size={order.size}
-            clothSize={order.cloth_size}
-            status={order.status}
-          />
-        ))}
+    <>
+      <Navbar />
+      <div className="max-w-4xl mx-auto m-4 px-4">
+        <h1 className="text-3xl font-black tracking-tight text-gray-900 mb-6">
+          Orders:
+        </h1>
+        <div className="grid grid-cols-1 gap-2">
+          {orders.map((order) => (
+            <OrderCard
+              key={order.id}
+              id={order.id}
+              designId={order.design_id}
+              size={order.size}
+              clothSize={order.cloth_size}
+              status={order.status}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

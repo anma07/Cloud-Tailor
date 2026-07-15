@@ -57,7 +57,6 @@ export default function OrderPage() {
     <>
       <Navbar />
       <div className="m-6 max-w-xl mx-auto bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-        {/* Success Header */}
         <div className="flex items-center gap-3 mb-6">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600">
             ✓
@@ -66,8 +65,6 @@ export default function OrderPage() {
             Your Order has been Placed!
           </h1>
         </div>
-
-        {/* Order Specifications */}
         <div className="space-y-3 border-t border-gray-100 pt-4 text-sm">
           <p className="text-gray-600">
             <span className="font-semibold text-gray-800">Design Name:</span>{' '}
